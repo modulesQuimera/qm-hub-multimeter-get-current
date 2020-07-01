@@ -1,0 +1,85 @@
+<script type="text/javascript">
+    RED.nodes.registerType('get-current',{
+        category: 'multimeter modular',
+        color: '#FFDAB9',
+        defaults: {
+            name:{ value: "" },
+            mapeamento:{ value:"", type: "mapping-get-current" },
+            // websocket:{ type: "jig-web-socket", required: true },
+            AC_mode:{ value:"" },
+            channel_number:{ value:"" },
+            scale: { value:"" },
+        },
+        inputs:1,
+        outputs:1,
+        icon: "font-awesome/fa-bars",
+        label: function() { return this.name || "get-current" },
+        paletteLabel: "get-current",
+        oneditprepare: function() {
+            var ports = []
+            var self = this
+
+            $.getJSON('getCurrent',function(data) {
+                ports = data  
+                var portType = "custom";
+                for (var i in ports) {
+                    if (self.channel_number == ports[i].value) {
+                        portType = self.channel_number;
+                    }
+                }
+                $("#node-config-input-port").typedInput({
+                    default: self.channel_number,
+                    types:ports
+                });
+            })
+            // $("#node-input-mapeamento").val($("#node-input-mapeamento option:first").val());
+        },
+        oneditsave: function() {
+            var mytype = $("#node-config-input-port").typedInput('type');
+
+            $("#node-config-input-port").typedInput('value', mytype);
+            this.channel_number = $("#node-config-input-port").typedInput('value');
+        }
+    });
+
+</script>
+
+<script type="text/html" data-template-name="get-current">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <br>
+    <div class="form-row">
+        <label for="node-input-AC_mode"><i class="fa fa-sliders"></i> AC mode</label>
+        <select id="node-input-AC_mode" style="width:16%">
+            <option value="true" selected>True</option> 
+            <option value="false">False</option>
+        </select>
+        <label for="node-input-scale" style="margin-left: 7%"><i class="fa fa-expand"></i> Scale</label>
+        <input type="number" step="any" id="node-input-scale" placeholder="scale" style="width:32%; margin-left: -40px">
+        <!-- <label for="node-input-scale" style="margin-left: 27%"><i class="fa fa-expand"></i> Scale</label>
+        <select id="node-input-scale" style="width:13%; margin-left:-10%">
+            <option value="300" selected>300</option> 
+            <option value="30">30</option>
+            <option value="6">6</option>
+          </select> -->
+    </div>
+    <div class="form-row">
+        <label for="node-input-channel_number"><i class="fa fa-list-ul"></i> Channel number</label>
+        <input type="text" id="node-config-input-port" style="width:27%">
+        <div style="width:20px; margin-left:255px; margin-top:-34px" selected>
+            <input type="text" id="node-input-mapeamento" placeholder="mapeamento">
+        </div>
+    </div>
+    <!-- <div class="form-row node-input-websocket" style="margin-top: 20px">
+        <label for="node-input-websocket"><i class="fa fa-random"></i> Websocket config</label>
+        <input type="text" id="node-input-websocket" style="width: 230px">
+    </div> -->
+</script>
+
+<script type="text/html" data-help-name="get-current">
+    <p>Working on it...</p>
+</script>
+
+
