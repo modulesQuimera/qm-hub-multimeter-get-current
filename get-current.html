@@ -1,7 +1,7 @@
 <script type="text/javascript">
     RED.nodes.registerType('get-current',{
         category: 'multimeter modular',
-        color: '#FFDAB9',
+        color: '#C0C0C0',
         defaults: {
             name:{ value: "" },
             mapeamento:{ value:"", type: "mapping-get-current" },
@@ -12,9 +12,9 @@
         },
         inputs:1,
         outputs:1,
-        icon: "font-awesome/fa-bars",
-        label: function() { return this.name || "get-current" },
-        paletteLabel: "get-current",
+        icon: "./icons/Get Current.svg",
+        label: function() { return this.name || "Get Current" },
+        paletteLabel: "Get Current",
         oneditprepare: function() {
             var ports = []
             var self = this
