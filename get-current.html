@@ -34,6 +34,13 @@
             })
             // $("#node-input-mapeamento").val($("#node-input-mapeamento option:first").val());
         },
+        oneditresize: function() {
+            if(!$("#red-ui-header-button-deploy").hasClass("disabled")){
+                $("#node-dialog-ok").click()
+                $("#red-ui-header-button-deploy").click()
+                $("#red-ui-deploy-dialog-confirm-deploy-deploy").click()
+            }
+        },
         oneditsave: function() {
             var mytype = $("#node-config-input-port").typedInput('type');
 
