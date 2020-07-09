@@ -5,17 +5,49 @@
         defaults: {
             name:{ value: "" },
             mapeamento:{ value:"", type: "mapping-get-current" },
-            // websocket:{ type: "jig-web-socket", required: true },
             AC_mode:{ value:"" },
             channel_number:{ value:"" },
             scale: { value:"" },
+            compare_select: {value:"interval", required:true},
+            // equalTo: {value: ''},
+            maxValue: {value: null},
+            minValue: {value: null}
         },
         inputs:1,
         outputs:1,
-        icon: "./icons/Get Current.svg",
+        icon: "./icons/Get_Current.svg",
         label: function() { return this.name || "Get Current" },
         paletteLabel: "Get Current",
         oneditprepare: function() {
+            var node = this;
+            var scope = node.scope || [];
+
+            $("#node-input-compare_select").on("change", function(e) {
+                var compare = $(this).val();
+                // if (compare === "equalTo") {
+                //     $(".node-input-equal-to").show();
+                //     $(".node-input-max-value").hide();
+                //     $(".node-input-min-value").hide();
+                // }
+                if (compare === "interval") {
+                    // $(".node-input-equal-to").hide();
+                    $(".node-input-max-value").show();
+                    $(".node-input-min-value").show();
+                }
+
+                if (compare === "maxValue") {
+                    // $(".node-input-equal-to").hide();
+                    $(".node-input-max-value").show();
+                    $(".node-input-min-value").hide();
+                }
+                if (compare === "minValue") {
+                    // $(".node-input-equal-to").hide();
+                    $(".node-input-max-value").hide();
+                    $(".node-input-min-value").show();
+                }
+                // node._resize();
+            });
+
             var ports = []
             var self = this
 
@@ -51,42 +83,110 @@
 
 </script>
 
+<style>
+    label{
+        width: 50% !important;
+        margin-bottom: 2px !important;
+    }
+
+    hr {
+    width: 40% !important;
+    float: left !important;
+    }
+
+    .hr-div-get-voltage{
+        display: flex !important;
+        justify-content: space-between !important;
+        margin-top: 140px !important;
+    }
+
+    .optional{
+        height: max-content !important;
+        margin-top: 10px !important;
+    }
+
+    .descript{
+        text-align: center;
+    }
+
+    .columm{
+        display: flex !important;
+        flex-direction: column !important;
+    }
+</style>
+
 <script type="text/html" data-template-name="get-current">
-    <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
+    <div class="form-row columm">
+        <strong class="descript">
+            A comparation is made with the measured current value.
+        </strong>
     </div>
-    <br>
-    <div class="form-row">
-        <label for="node-input-AC_mode"><i class="fa fa-sliders"></i> AC mode</label>
-        <select id="node-input-AC_mode" style="width:16%">
-            <option value="true" selected>True</option> 
-            <option value="false">False</option>
-        </select>
-        <label for="node-input-scale" style="margin-left: 7%"><i class="fa fa-expand"></i> Scale</label>
-        <input type="number" step="any" id="node-input-scale" placeholder="scale" style="width:32%; margin-left: -40px">
-        <!-- <label for="node-input-scale" style="margin-left: 27%"><i class="fa fa-expand"></i> Scale</label>
-        <select id="node-input-scale" style="width:13%; margin-left:-10%">
-            <option value="300" selected>300</option> 
-            <option value="30">30</option>
-            <option value="6">6</option>
-          </select> -->
-    </div>
-    <div class="form-row">
-        <label for="node-input-channel_number"><i class="fa fa-list-ul"></i> Channel number</label>
-        <input type="text" id="node-config-input-port" style="width:27%">
-        <div style="width:20px; margin-left:255px; margin-top:-34px" selected>
-            <input type="text" id="node-input-mapeamento" placeholder="mapeamento">
+    <div style="display: flex;">
+        <div class="form-row columm" style=" width: 50%; float: left;">
+            <label for="node-input-AC_mode"><i class="fa fa-sliders"></i> AC mode</label>
+            <select id="node-input-AC_mode" style="width: 50%;">
+                <option value="true" selected>True</option> 
+                <option value="false">False</option>
+            </select>
+        </div>
+        <div class="form-row columm" style=" width: 50%; float: left;">
+            <label for="node-input-scale" style=""><i class="fa fa-expand"></i> Scale</label>
+            <input type="number" step="any" id="node-input-scale" placeholder="scale" style="width:50%;">
         </div>
     </div>
-    <!-- <div class="form-row node-input-websocket" style="margin-top: 20px">
-        <label for="node-input-websocket"><i class="fa fa-random"></i> Websocket config</label>
-        <input type="text" id="node-input-websocket" style="width: 230px">
-    </div> -->
+    <div class="form-row columm">
+        <label for="node-input-channel_number"><i class="fa fa-list-ul"></i> Channel number</label>
+        <div>
+            <input type="text" id="node-config-input-port" style="width: 40%">
+            <div style="width:20px; margin-left:180px; margin-top:-34px" selected>
+                <input type="text" id="node-input-mapeamento" placeholder="mapeamento">
+            </div>
+        </div>
+    </div>
+    <div class="form-row columm ">
+        <label style="width: auto; margin-top: 8px;" for="node-input-compare_select"><i class="icon-tag"></i>Comparison Type:</label>
+        <select id="node-input-compare_select"  >
+            <!-- <option value="equalTo">Equal to</option> -->
+            <option value="interval">Interval</option>
+            <option value="maxValue">Maximum value (<)</option>
+            <option value="minValue">Minimum value (>)</option>  
+        </select>
+      </div>
+      <div class="form-row columm" style="display: flex;">
+        <!-- <div class="node-input-equal-to">
+          <div class="columm">
+            <label for="node-input-equalTo" style="width: max-content; !important"><i class="icon-tag"></i>Equal To: </label>
+          <input type="number" id="node-input-equalTo" style=" width:70px !important ">
+          </div>
+        </div> -->
+        <div class=box>
+            <div class="node-input-min-value" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                <div class="columm">
+                    <label for="node-input-minValue" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                    <input type="number" id="node-input-minValue" style=" width:70px !important ">
+                </div>
+            </div>
+            <div class="node-input-max-value" style="display: none;">
+                <div class="columm">
+                    <label for="node-input-maxValue" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                    <input type="number" id="node-input-maxValue" style=" width:70px !important ">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hr-div-get-voltage">
+        <hr>
+        <span class="optional">Optional</span>
+        <hr>
+    </div>
+    <div class="form-row columm">
+        <label style="width: 50% !important;" for="node-input-name" ><i class="fa fa-tag"></i> Component Nickname</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
 </script>
 
 <script type="text/html" data-help-name="get-current">
-    <p>Working on it...</p>
+    <p> A comparation is made with the measured current value.</p>
 </script>
 
 
