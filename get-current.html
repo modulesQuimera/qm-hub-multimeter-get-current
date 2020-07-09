@@ -9,13 +9,12 @@
             channel_number:{ value:"" },
             scale: { value:"" },
             compare_select: {value:"interval", required:true},
-            // equalTo: {value: ''},
             maxValue: {value: null},
             minValue: {value: null}
         },
         inputs:1,
         outputs:1,
-        icon: "./icons/Get_Current.svg",
+        icon: "Get_Current.svg",
         label: function() { return this.name || "Get Current" },
         paletteLabel: "Get Current",
         oneditprepare: function() {
@@ -24,28 +23,19 @@
 
             $("#node-input-compare_select").on("change", function(e) {
                 var compare = $(this).val();
-                // if (compare === "equalTo") {
-                //     $(".node-input-equal-to").show();
-                //     $(".node-input-max-value").hide();
-                //     $(".node-input-min-value").hide();
-                // }
                 if (compare === "interval") {
-                    // $(".node-input-equal-to").hide();
                     $(".node-input-max-value").show();
                     $(".node-input-min-value").show();
                 }
 
                 if (compare === "maxValue") {
-                    // $(".node-input-equal-to").hide();
                     $(".node-input-max-value").show();
                     $(".node-input-min-value").hide();
                 }
                 if (compare === "minValue") {
-                    // $(".node-input-equal-to").hide();
                     $(".node-input-max-value").hide();
                     $(".node-input-min-value").show();
                 }
-                // node._resize();
             });
 
             var ports = []
@@ -64,7 +54,6 @@
                     types:ports
                 });
             })
-            // $("#node-input-mapeamento").val($("#node-input-mapeamento option:first").val());
         },
         oneditresize: function() {
             if(!$("#red-ui-header-button-deploy").hasClass("disabled")){
@@ -153,12 +142,6 @@
         </select>
       </div>
       <div class="form-row columm" style="display: flex;">
-        <!-- <div class="node-input-equal-to">
-          <div class="columm">
-            <label for="node-input-equalTo" style="width: max-content; !important"><i class="icon-tag"></i>Equal To: </label>
-          <input type="number" id="node-input-equalTo" style=" width:70px !important ">
-          </div>
-        </div> -->
         <div class=box>
             <div class="node-input-min-value" style="display: none; width: min-content; float: left; margin-right: 40px;">
                 <div class="columm">
