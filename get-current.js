@@ -43,18 +43,35 @@ module.exports = function(RED) {
             var exportMode = globalContext.get("exportMode");
             var currentMode = globalContext.get("currentMode");
             var command = {
-                type: "multimeter_modular_V1.0",
-                slot: 1,
+                type: "multimeter_modular_V1_0",
+                slot: parseInt(mapeamentoNode.slot),
                 method: "get_current",
                 channel_number: parseInt(node.channel_number),
                 AC_mode: node.AC_mode ,
                 scale: parseFloat(node.scale),
-                compare: _compare
+                compare: _compare,
+                get_output: {},
             }
             var file = globalContext.get("exportFile")
             var slot = globalContext.get("slot");
-            if(currentMode == "test"){file.slots[slot].jig_test.push(command)}
-            else{file.slots[slot].jig_error.push(command)}
+            if(!(slot === "begin" || slot === "end")){
+                if(currentMode == "test"){
+                    file.slots[slot].jig_test.push(command);
+                }
+                else{
+                    file.slots[slot].jig_error.push(command);
+                }
+            }
+            else{
+                if(slot === "begin"){
+                    file.slots[0].jig_test.push(command);
+                    // file.begin.push(command);
+                }
+                else{
+                    file.slots[3].jig_test.push(command);
+                    // file.end.push(command);
+                }
+            }
             globalContext.set("exportFile", file);
             console.log(command)
             send(msg)
@@ -62,23 +79,23 @@ module.exports = function(RED) {
     }
     RED.nodes.registerType("get-current", getCurrentNode);
 
-    RED.httpAdmin.get("/getCurrent",function(req,res) {
-        // console.log(mapeamentoNode)
-        if(mapeamentoNode){
-            res.json([
-                {value:mapeamentoNode.valuePort1, label: "IAPW - " + mapeamentoNode.labelPort1, hasValue:false},
-                {value:mapeamentoNode.valuePort2, label: "IBPW - " + mapeamentoNode.labelPort2, hasValue:false},
-                {value:mapeamentoNode.valuePort3, label: "ICPW - " + mapeamentoNode.labelPort3, hasValue:false},
-                {value:mapeamentoNode.valuePort4, label: "INPW - " + mapeamentoNode.labelPort4, hasValue:false},
-            ])
-        }
-        else{
-            res.json([
-                {label:"IAPW - ", value: "0", hasValue:false},
-                {label:"IBPW - ", value: "1", hasValue:false},
-                {label:"ICPW - ", value: "2", hasValue:false},
-                {label:"INPW - ", value: "3", hasValue:false},
-            ])
-        }
-    });
+    // RED.httpAdmin.get("/getCurrent",function(req,res) {
+    //     // console.log(mapeamentoNode)
+    //     if(mapeamentoNode){
+    //         res.json([
+    //             {value:mapeamentoNode.valuePort1, label: "IAPW - " + mapeamentoNode.labelPort1, hasValue:false},
+    //             {value:mapeamentoNode.valuePort2, label: "IBPW - " + mapeamentoNode.labelPort2, hasValue:false},
+    //             {value:mapeamentoNode.valuePort3, label: "ICPW - " + mapeamentoNode.labelPort3, hasValue:false},
+    //             {value:mapeamentoNode.valuePort4, label: "INPW - " + mapeamentoNode.labelPort4, hasValue:false},
+    //         ])
+    //     }
+    //     else{
+    //         res.json([
+    //             {label:"IAPW - ", value: "0", hasValue:false},
+    //             {label:"IBPW - ", value: "1", hasValue:false},
+    //             {label:"ICPW - ", value: "2", hasValue:false},
+    //             {label:"INPW - ", value: "3", hasValue:false},
+    //         ])
+    //     }
+    // });
 }

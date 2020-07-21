@@ -1,7 +1,7 @@
 <script type="text/javascript">
     RED.nodes.registerType('get-current',{
         category: 'multimeter modular',
-        color: '#C0C0C0',
+        color: '#32CD32',
         defaults: {
             name:{ value: "" },
             mapeamento:{ value:"", type: "mapping-get-current" },
@@ -14,8 +14,8 @@
         },
         inputs:1,
         outputs:1,
-        icon: "Get_Current.svg",
-        label: function() { return this.name || "Get Current" },
+        icon: "Multimeter_Modular.svg",
+        label: function() { return this.name? "Get Current - " + this.name: "Get Current"},
         paletteLabel: "Get Current",
         oneditprepare: function() {
             var node = this;
@@ -40,20 +40,28 @@
 
             var ports = []
             var self = this
-
-            $.getJSON('getCurrent',function(data) {
-                ports = data  
-                var portType = "custom";
-                for (var i in ports) {
-                    if (self.channel_number == ports[i].value) {
-                        portType = self.channel_number;
-                    }
-                }
-                $("#node-config-input-port").typedInput({
-                    default: self.channel_number,
-                    types:ports
-                });
-            })
+            var config_mapeamento = RED.nodes.node(this.mapeamento)
+            // console.log(config_mapeamento)
+            if(config_mapeamento){
+                ports = [
+                    {value:config_mapeamento.valuePort1, label: "IAPW - " + config_mapeamento.labelPort1, hasValue:false},
+                    {value:config_mapeamento.valuePort2, label: "IBPW - " + config_mapeamento.labelPort2, hasValue:false},
+                    {value:config_mapeamento.valuePort3, label: "ICPW - " + config_mapeamento.labelPort3, hasValue:false},
+                    {value:config_mapeamento.valuePort4, label: "INPW - " + config_mapeamento.labelPort4, hasValue:false},
+                ]; 
+            }
+            else{
+                ports = [
+                    {label:"IAPW - ", value: "0", hasValue:false},
+                    {label:"IBPW - ", value: "1", hasValue:false},
+                    {label:"ICPW - ", value: "2", hasValue:false},
+                    {label:"INPW - ", value: "3", hasValue:false},
+                ];
+            }
+            $("#node-config-input-port").typedInput({
+                default: self.channel_number,
+                types:ports
+            });
         },
         oneditresize: function() {
             if(!$("#red-ui-header-button-deploy").hasClass("disabled")){
@@ -107,7 +115,7 @@
 <script type="text/html" data-template-name="get-current">
     <div class="form-row columm">
         <strong class="descript">
-            A comparation is made with the measured current value.
+            Measure a specific current.
         </strong>
     </div>
     <div style="display: flex;">
@@ -127,10 +135,14 @@
         <label for="node-input-channel_number"><i class="fa fa-list-ul"></i> Channel number</label>
         <div>
             <input type="text" id="node-config-input-port" style="width: 40%">
-            <div style="width:20px; margin-left:180px; margin-top:-34px" selected>
+            <!-- <div style="width:20px; margin-left:180px; margin-top:-34px" selected>
                 <input type="text" id="node-input-mapeamento" placeholder="mapeamento">
-            </div>
+            </div> -->
         </div>
+    </div>
+    <div class="form-row">
+        <label for="node-input-mapeamento"><i class="fa fa-map"></i> Mapping</label>
+        <input type="text" id="node-input-mapeamento">
     </div>
     <div class="form-row columm ">
         <label style="width: auto; margin-top: 8px;" for="node-input-compare_select"><i class="icon-tag"></i>Comparison Type:</label>
@@ -169,7 +181,7 @@
 </script>
 
 <script type="text/html" data-help-name="get-current">
-    <p> A comparation is made with the measured current value.</p>
+    <p>Measure a specific current.</p>
 </script>
 
 
