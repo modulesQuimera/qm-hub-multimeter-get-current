@@ -10,36 +10,216 @@
             scale: { value:"" },
             compare_select: {value:"interval", required:true},
             maxValue: {value: null},
-            minValue: {value: null}
+            minValue: {value: null},
+
+            qtdGetCurrent:{value:0},
+            controle:{value:0},
+            AC_mode1:{ value:"" }, channel_number1:{ value:""}, scale1: { value:"" }, compare_select1: {value:"interval"}, maxValue1: {value: null}, minValue1: {value: null},
+            AC_mode2:{ value:"" }, channel_number2:{ value:""}, scale2: { value:"" }, compare_select2: {value:"interval"}, maxValue2: {value: null}, minValue2: {value: null},
+            AC_mode3:{ value:"" }, channel_number3:{ value:""}, scale3: { value:"" }, compare_select3: {value:"interval"}, maxValue3: {value: null}, minValue3: {value: null},
+            AC_mode4:{ value:"" }, channel_number4:{ value:""}, scale4: { value:"" }, compare_select4: {value:"interval"}, maxValue4: {value: null}, minValue4: {value: null},
+            AC_mode5:{ value:"" }, channel_number5:{ value:""}, scale5: { value:"" }, compare_select5: {value:"interval"}, maxValue5: {value: null}, minValue5: {value: null},
+            AC_mode6:{ value:"" }, channel_number6:{ value:""}, scale6: { value:"" }, compare_select6: {value:"interval"}, maxValue6: {value: null}, minValue6: {value: null},
+            AC_mode7:{ value:"" }, channel_number7:{ value:""}, scale7: { value:"" }, compare_select7: {value:"interval"}, maxValue7: {value: null}, minValue7: {value: null},
+            AC_mode8:{ value:"" }, channel_number8:{ value:""}, scale8: { value:"" }, compare_select8: {value:"interval"}, maxValue8: {value: null}, minValue8: {value: null},
+            AC_mode9:{ value:"" }, channel_number9:{ value:""}, scale9: { value:"" }, compare_select9: {value:"interval"}, maxValue9: {value: null}, minValue9: {value: null},
+            AC_mode10:{ value:"" }, channel_number10:{ value:""}, scale10: { value:"" }, compare_select10: {value:"interval"}, maxValue10: {value: null}, minValue10: {value: null},
+            AC_mode11:{ value:"" }, channel_number11:{ value:""}, scale11: { value:"" }, compare_select11: {value:"interval"}, maxValue11: {value: null}, minValue11: {value: null},
+            AC_mode12:{ value:"" }, channel_number12:{ value:""}, scale12: { value:"" }, compare_select12: {value:"interval"}, maxValue12: {value: null}, minValue12: {value: null},
+            AC_mode13:{ value:"" }, channel_number13:{ value:""}, scale13: { value:"" }, compare_select13: {value:"interval"}, maxValue13: {value: null}, minValue13: {value: null},
+            AC_mode14:{ value:"" }, channel_number14:{ value:""}, scale14: { value:"" }, compare_select14: {value:"interval"}, maxValue14: {value: null}, minValue14: {value: null},
+            AC_mode15:{ value:"" }, channel_number15:{ value:""}, scale15: { value:"" }, compare_select15: {value:"interval"}, maxValue15: {value: null}, minValue15: {value: null},
+            AC_mode16:{ value:"" }, channel_number16:{ value:""}, scale16: { value:"" }, compare_select16: {value:"interval"}, maxValue16: {value: null}, minValue16: {value: null},
+            AC_mode17:{ value:"" }, channel_number17:{ value:""}, scale17: { value:"" }, compare_select17: {value:"interval"}, maxValue17: {value: null}, minValue17: {value: null},
+            AC_mode18:{ value:"" }, channel_number18:{ value:""}, scale18: { value:"" }, compare_select18: {value:"interval"}, maxValue18: {value: null}, minValue18: {value: null},
+            AC_mode19:{ value:"" }, channel_number19:{ value:""}, scale19: { value:"" }, compare_select19: {value:"interval"}, maxValue19: {value: null}, minValue19: {value: null},
+            AC_mode20:{ value:"" }, channel_number20:{ value:""}, scale20: { value:"" }, compare_select20: {value:"interval"}, maxValue20: {value: null}, minValue20: {value: null},
+            AC_mode21:{ value:"" }, channel_number21:{ value:""}, scale21: { value:"" }, compare_select21: {value:"interval"}, maxValue21: {value: null}, minValue21: {value: null},
+            AC_mode22:{ value:"" }, channel_number22:{ value:""}, scale22: { value:"" }, compare_select22: {value:"interval"}, maxValue22: {value: null}, minValue22: {value: null},
+            AC_mode23:{ value:"" }, channel_number23:{ value:""}, scale23: { value:"" }, compare_select23: {value:"interval"}, maxValue23: {value: null}, minValue23: {value: null},
+            AC_mode24:{ value:"" }, channel_number24:{ value:""}, scale24: { value:"" }, compare_select24: {value:"interval"}, maxValue24: {value: null}, minValue24: {value: null},
+
         },
         inputs:1,
         outputs:1,
-        icon: "Multimeter_Modular.svg",
+        icon: "MULTI_METER.svg",
         label: function() { return this.name? "Get Current - " + this.name: "Get Current"},
         paletteLabel: "Get Current",
         oneditprepare: function() {
             var node = this;
-            var scope = node.scope || [];
+            var self = this
+            self.controle = self.qtdGetCurrent;
+
+            for(var i=1; i<=self.controle; i++){
+                $(".getCurrent"+i).show();
+            }
+            if(!self.controle || self.controle < 0){
+                self.controle = 0;
+            }
+            $("#addGetCurrent").click(function(){
+                self.controle = self.controle+1 <= 24 ? self.controle + 1 : 24;
+
+                $(".getCurrent"+self.controle).show();
+                console.log(self.controle);
+            });
+            $("#remGetCurrent").click(function(){
+                $(".getCurrent"+self.controle).hide();
+                self.controle = self.controle-1 >= 0 ? self.controle - 1 : 0;
+                console.log(self.controle);
+            });
 
             $("#node-input-compare_select").on("change", function(e) {
                 var compare = $(this).val();
-                if (compare === "interval") {
-                    $(".node-input-max-value").show();
-                    $(".node-input-min-value").show();
-                }
-
-                if (compare === "maxValue") {
-                    $(".node-input-max-value").show();
-                    $(".node-input-min-value").hide();
-                }
-                if (compare === "minValue") {
-                    $(".node-input-max-value").hide();
-                    $(".node-input-min-value").show();
-                }
+                if (compare === "interval") { $(".node-input-max-value").show(); $(".node-input-min-value").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value").show(); $(".node-input-min-value").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value").hide(); $(".node-input-min-value").show(); }
+            });
+            $("#node-input-compare_select1").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value1").show(); $(".node-input-min-value1").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value1").show(); $(".node-input-min-value1").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value1").hide(); $(".node-input-min-value1").show(); }
+            });
+            $("#node-input-compare_select2").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value2").show(); $(".node-input-min-value2").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value2").show(); $(".node-input-min-value2").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value2").hide(); $(".node-input-min-value2").show(); }
+            });
+            $("#node-input-compare_select3").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value3").show(); $(".node-input-min-value3").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value3").show(); $(".node-input-min-value3").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value3").hide(); $(".node-input-min-value3").show(); }
+            });
+            $("#node-input-compare_select4").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value4").show(); $(".node-input-min-value4").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value4").show(); $(".node-input-min-value4").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value4").hide(); $(".node-input-min-value4").show(); }
+            });
+            $("#node-input-compare_select5").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value5").show(); $(".node-input-min-value5").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value5").show(); $(".node-input-min-value5").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value5").hide(); $(".node-input-min-value5").show(); }
+            });
+            $("#node-input-compare_select6").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value6").show(); $(".node-input-min-value6").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value6").show(); $(".node-input-min-value6").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value6").hide(); $(".node-input-min-value6").show(); }
+            });
+            $("#node-input-compare_select7").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value7").show(); $(".node-input-min-value7").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value7").show(); $(".node-input-min-value7").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value7").hide(); $(".node-input-min-value7").show(); }
+            });
+            $("#node-input-compare_select8").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value8").show(); $(".node-input-min-value8").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value8").show(); $(".node-input-min-value8").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value8").hide(); $(".node-input-min-value8").show(); }
+            });
+            $("#node-input-compare_select9").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value9").show(); $(".node-input-min-value9").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value9").show(); $(".node-input-min-value9").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value9").hide(); $(".node-input-min-value9").show(); }
+            });
+            $("#node-input-compare_select10").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value10").show(); $(".node-input-min-value10").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value10").show(); $(".node-input-min-value10").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value10").hide(); $(".node-input-min-value10").show(); }
+            });
+            $("#node-input-compare_select11").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value11").show(); $(".node-input-min-value11").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value11").show(); $(".node-input-min-value11").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value11").hide(); $(".node-input-min-value11").show(); }
+            });
+            $("#node-input-compare_select12").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value12").show(); $(".node-input-min-value12").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value12").show(); $(".node-input-min-value12").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value12").hide(); $(".node-input-min-value12").show(); }
+            });
+            $("#node-input-compare_select13").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value13").show(); $(".node-input-min-value13").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value13").show(); $(".node-input-min-value13").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value13").hide(); $(".node-input-min-value13").show(); }
+            });
+            $("#node-input-compare_select14").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value14").show(); $(".node-input-min-value14").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value14").show(); $(".node-input-min-value14").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value14").hide(); $(".node-input-min-value14").show(); }
+            });
+            $("#node-input-compare_select15").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value15").show(); $(".node-input-min-value15").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value15").show(); $(".node-input-min-value15").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value15").hide(); $(".node-input-min-value15").show(); }
+            });
+            $("#node-input-compare_select16").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value16").show(); $(".node-input-min-value16").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value16").show(); $(".node-input-min-value16").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value16").hide(); $(".node-input-min-value16").show(); }
+            });
+            $("#node-input-compare_select17").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value17").show(); $(".node-input-min-value17").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value17").show(); $(".node-input-min-value17").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value17").hide(); $(".node-input-min-value17").show(); }
+            });
+            $("#node-input-compare_select18").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value18").show(); $(".node-input-min-value18").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value18").show(); $(".node-input-min-value18").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value18").hide(); $(".node-input-min-value18").show(); }
+            });
+            $("#node-input-compare_select19").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value19").show(); $(".node-input-min-value19").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value19").show(); $(".node-input-min-value19").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value19").hide(); $(".node-input-min-value19").show(); }
+            });
+            $("#node-input-compare_select20").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value20").show(); $(".node-input-min-value20").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value20").show(); $(".node-input-min-value20").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value20").hide(); $(".node-input-min-value20").show(); }
+            });
+            $("#node-input-compare_select21").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value21").show(); $(".node-input-min-value21").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value21").show(); $(".node-input-min-value21").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value21").hide(); $(".node-input-min-value21").show(); }
+            });
+            $("#node-input-compare_select22").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value22").show(); $(".node-input-min-value22").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value22").show(); $(".node-input-min-value22").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value22").hide(); $(".node-input-min-value22").show(); }
+            });
+            $("#node-input-compare_select23").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value23").show(); $(".node-input-min-value23").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value23").show(); $(".node-input-min-value23").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value23").hide(); $(".node-input-min-value23").show(); }
+            });
+            $("#node-input-compare_select24").on("change", function(e) {
+                var compare = $(this).val();
+                if (compare === "interval") { $(".node-input-max-value24").show(); $(".node-input-min-value24").show(); }
+                if (compare === "maxValue") { $(".node-input-max-value24").show(); $(".node-input-min-value24").hide(); }
+                if (compare === "minValue") { $(".node-input-max-value24").hide(); $(".node-input-min-value24").show(); }
             });
 
             var ports = []
-            var self = this
             var config_mapeamento = RED.nodes.node(this.mapeamento)
             // console.log(config_mapeamento)
             if(config_mapeamento){
@@ -62,6 +242,102 @@
                 default: self.channel_number,
                 types:ports
             });
+            $("#node-config-input-port1").typedInput({
+                default: self.channel_number1,
+                types:ports
+            });
+            $("#node-config-input-port2").typedInput({
+                default: self.channel_number2,
+                types:ports
+            });
+            $("#node-config-input-port3").typedInput({
+                default: self.channel_number3,
+                types:ports
+            });
+            $("#node-config-input-port4").typedInput({
+                default: self.channel_number4,
+                types:ports
+            });
+            $("#node-config-input-port5").typedInput({
+                default: self.channel_number5,
+                types:ports
+            });
+            $("#node-config-input-port6").typedInput({
+                default: self.channel_number6,
+                types:ports
+            });
+            $("#node-config-input-port7").typedInput({
+                default: self.channel_number7,
+                types:ports
+            });
+            $("#node-config-input-port8").typedInput({
+                default: self.channel_number8,
+                types:ports
+            });
+            $("#node-config-input-port9").typedInput({
+                default: self.channel_number9,
+                types:ports
+            });
+            $("#node-config-input-port10").typedInput({
+                default: self.channel_number10,
+                types:ports
+            });
+            $("#node-config-input-port11").typedInput({
+                default: self.channel_number11,
+                types:ports
+            });
+            $("#node-config-input-port12").typedInput({
+                default: self.channel_number12,
+                types:ports
+            });
+            $("#node-config-input-port13").typedInput({
+                default: self.channel_number13,
+                types:ports
+            });
+            $("#node-config-input-port14").typedInput({
+                default: self.channel_number14,
+                types:ports
+            });
+            $("#node-config-input-port15").typedInput({
+                default: self.channel_number15,
+                types:ports
+            });
+            $("#node-config-input-port16").typedInput({
+                default: self.channel_number16,
+                types:ports
+            });
+            $("#node-config-input-port17").typedInput({
+                default: self.channel_number17,
+                types:ports
+            });
+            $("#node-config-input-port18").typedInput({
+                default: self.channel_number18,
+                types:ports
+            });
+            $("#node-config-input-port19").typedInput({
+                default: self.channel_number19,
+                types:ports
+            });
+            $("#node-config-input-port20").typedInput({
+                default: self.channel_number20,
+                types:ports
+            });
+            $("#node-config-input-port21").typedInput({
+                default: self.channel_number21,
+                types:ports
+            });
+            $("#node-config-input-port22").typedInput({
+                default: self.channel_number22,
+                types:ports
+            });
+            $("#node-config-input-port23").typedInput({
+                default: self.channel_number23,
+                types:ports
+            });
+            $("#node-config-input-port24").typedInput({
+                default: self.channel_number24,
+                types:ports
+            });
         },
         oneditresize: function() {
             if(!$("#red-ui-header-button-deploy").hasClass("disabled")){
@@ -72,9 +348,107 @@
         },
         oneditsave: function() {
             var mytype = $("#node-config-input-port").typedInput('type');
+            var mytype1 = $("#node-config-input-port1").typedInput('type');
+            var mytype2 = $("#node-config-input-port2").typedInput('type');
+            var mytype3 = $("#node-config-input-port3").typedInput('type');
+            var mytype4 = $("#node-config-input-port4").typedInput('type');
+            var mytype5 = $("#node-config-input-port5").typedInput('type');
+            var mytype6 = $("#node-config-input-port6").typedInput('type');
+            var mytype7 = $("#node-config-input-port7").typedInput('type');
+            var mytype8 = $("#node-config-input-port8").typedInput('type');
+            var mytype9 = $("#node-config-input-port9").typedInput('type');
+            var mytype10 = $("#node-config-input-port10").typedInput('type');
+            var mytype11 = $("#node-config-input-port11").typedInput('type');
+            var mytype12 = $("#node-config-input-port12").typedInput('type');
+            var mytype13 = $("#node-config-input-port13").typedInput('type');
+            var mytype14 = $("#node-config-input-port14").typedInput('type');
+            var mytype15 = $("#node-config-input-port15").typedInput('type');
+            var mytype16 = $("#node-config-input-port16").typedInput('type');
+            var mytype17 = $("#node-config-input-port17").typedInput('type');
+            var mytype18 = $("#node-config-input-port18").typedInput('type');
+            var mytype19 = $("#node-config-input-port19").typedInput('type');
+            var mytype20 = $("#node-config-input-port20").typedInput('type');
+            var mytype21 = $("#node-config-input-port21").typedInput('type');
+            var mytype22 = $("#node-config-input-port22").typedInput('type');
+            var mytype23 = $("#node-config-input-port23").typedInput('type');
+            var mytype24 = $("#node-config-input-port24").typedInput('type');
 
             $("#node-config-input-port").typedInput('value', mytype);
             this.channel_number = $("#node-config-input-port").typedInput('value');
+
+            $("#node-config-input-port1").typedInput('value', mytype1);
+            this.channel_number1 = $("#node-config-input-port1").typedInput('value');
+
+            $("#node-config-input-port2").typedInput('value', mytype2);
+            this.channel_number2 = $("#node-config-input-port2").typedInput('value');
+
+            $("#node-config-input-port3").typedInput('value', mytype3);
+            this.channel_number3 = $("#node-config-input-port3").typedInput('value');
+
+            $("#node-config-input-port4").typedInput('value', mytype4);
+            this.channel_number4 = $("#node-config-input-port4").typedInput('value');
+
+            $("#node-config-input-port5").typedInput('value', mytype5);
+            this.channel_number5 = $("#node-config-input-port5").typedInput('value');
+
+            $("#node-config-input-port6").typedInput('value', mytype6);
+            this.channel_number6 = $("#node-config-input-port6").typedInput('value');
+
+            $("#node-config-input-port7").typedInput('value', mytype7);
+            this.channel_number7 = $("#node-config-input-port7").typedInput('value');
+
+            $("#node-config-input-port8").typedInput('value', mytype8);
+            this.channel_number8 = $("#node-config-input-port8").typedInput('value');
+
+            $("#node-config-input-port9").typedInput('value', mytype9);
+            this.channel_number9 = $("#node-config-input-port9").typedInput('value');
+
+            $("#node-config-input-port10").typedInput('value', mytype10);
+            this.channel_number10 = $("#node-config-input-port10").typedInput('value');
+
+            $("#node-config-input-port11").typedInput('value', mytype11);
+            this.channel_number11 = $("#node-config-input-port11").typedInput('value');
+
+            $("#node-config-input-port12").typedInput('value', mytype12);
+            this.channel_number12 = $("#node-config-input-port12").typedInput('value');
+
+            $("#node-config-input-port13").typedInput('value', mytype13);
+            this.channel_number13 = $("#node-config-input-port13").typedInput('value');
+
+            $("#node-config-input-port14").typedInput('value', mytype14);
+            this.channel_number14 = $("#node-config-input-port14").typedInput('value');
+
+            $("#node-config-input-port15").typedInput('value', mytype15);
+            this.channel_number15 = $("#node-config-input-port15").typedInput('value');
+
+            $("#node-config-input-port16").typedInput('value', mytype16);
+            this.channel_number16 = $("#node-config-input-port16").typedInput('value');
+
+            $("#node-config-input-port17").typedInput('value', mytype17);
+            this.channel_number17 = $("#node-config-input-port17").typedInput('value');
+
+            $("#node-config-input-port18").typedInput('value', mytype18);
+            this.channel_number18 = $("#node-config-input-port18").typedInput('value');
+
+            $("#node-config-input-port19").typedInput('value', mytype19);
+            this.channel_number19 = $("#node-config-input-port19").typedInput('value');
+
+            $("#node-config-input-port20").typedInput('value', mytype20);
+            this.channel_number20 = $("#node-config-input-port20").typedInput('value');
+
+            $("#node-config-input-port21").typedInput('value', mytype21);
+            this.channel_number21 = $("#node-config-input-port21").typedInput('value');
+
+            $("#node-config-input-port22").typedInput('value', mytype22);
+            this.channel_number22 = $("#node-config-input-port22").typedInput('value');
+
+            $("#node-config-input-port23").typedInput('value', mytype23);
+            this.channel_number23 = $("#node-config-input-port23").typedInput('value');
+
+            $("#node-config-input-port24").typedInput('value', mytype24);
+            this.channel_number24 = $("#node-config-input-port24").typedInput('value');
+
+            this.qtdGetCurrent = this.controle;
         }
     });
 
@@ -82,7 +456,7 @@
 
 <style>
     label{
-        width: 50% !important;
+        width: 100% !important;
         margin-bottom: 2px !important;
     }
 
@@ -94,7 +468,7 @@
     .hr-div-get-voltage{
         display: flex !important;
         justify-content: space-between !important;
-        margin-top: 140px !important;
+        /* margin-top: 140px !important; */
     }
 
     .optional{
@@ -110,66 +484,2449 @@
         display: flex !important;
         flex-direction: column !important;
     }
+
+    .columm-30{
+        display: flex !important;
+        flex-direction: column !important;
+        width: 30% !important;
+        float: left !important;
+    }
+    .columm-50{
+        display: flex !important;
+        flex-direction: column !important;
+        width: 50% !important;
+        float: left !important;
+    }
+
+
+    .columm-70{
+        display: flex !important;
+        flex-direction: column !important;
+        width: 70% !important;
+        float: left !important;
+    }
+
+    .descript-div{
+        max-width: 444px !important;
+    }
+
+    span.red-ui-typedInput-type-label {
+    /* background: chartreuse; */
+    /* display: block; */
+    width: 250px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    }
+
+    .btn-aln{
+        display: flex !important;
+        flex-direction: row-reverse !important;
+        /* padding-left: 30px; */
+        align-content: center;
+        align-items: flex-end;
+    }
 </style>
 
 <script type="text/html" data-template-name="get-current">
-    <div class="form-row columm">
+    <div class="form-row columm descript-div">
         <strong class="descript">
             Measure a specific current.
         </strong>
     </div>
+    <div style=" position: relative; display:flex; margin-top: 20px;">
+        <div class="form-row columm-70">
+            <label style="width: 50% !important;" for="node-input-name" ><i class="fa fa-tag"></i> Identification Note</label>
+            <input type="text" id="node-input-name" placeholder="Name" style="width: 100%">
+        </div>
+        <div class="form-row columm-30" style="align-items: flex-end !important;">
+            <label style="width: max-content !important; padding-right: 24px;"><i class="fa fa-list-ul"></i> Item</label>
+            <div class="form-row btn-aln" >
+                <a id="addGetCurrent" class="red-ui-button" ><i class="fa fa-plus"></i></a>
+                <a id="remGetCurrent" class="red-ui-button" style="margin-right: 5px;" ><i class="fa fa-minus"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="form-row" style="display:flex; justify-content: space-between;">
+        <button  class="btn-uni btn-add"  type="button" id="addGetCurrent"> <i class="fa fa-plus" style="margin-right: 5px; font-size: 15px;"></i></button>
+        <button class="btn-uni btn-remove"   type="button" id="remGetCurrent"> <i class="fa fa-trash" style="margin-right: 10px; font-size: 15px;"></i></button>
+    </div> -->
+    <div class="hr-div-get-voltage">
+        <hr>
+        <span class="optional">Measure 0</span>
+        <hr>
+    </div>
     <div style="display: flex;">
-        <div class="form-row columm" style=" width: 50%; float: left;">
+        <div class="form-row columm-30" style=" width: 50%; float: left;">
             <label for="node-input-AC_mode"><i class="fa fa-sliders"></i> AC mode</label>
             <select id="node-input-AC_mode" style="width: 50%;">
                 <option value="true" selected>True</option> 
                 <option value="false">False</option>
             </select>
         </div>
-        <div class="form-row columm" style=" width: 50%; float: left;">
+        <div class="form-row columm-50" style=" width: 50%; float: left;">
             <label for="node-input-scale" style=""><i class="fa fa-expand"></i> Scale</label>
             <input type="number" step="any" id="node-input-scale" placeholder="scale" style="width:50%;">
         </div>
     </div>
-    <div class="form-row columm">
+
+    <div class="form-row columm-70">
         <label for="node-input-channel_number"><i class="fa fa-list-ul"></i> Channel number</label>
         <div>
-            <input type="text" id="node-config-input-port" style="width: 40%">
+            <input type="text" id="node-config-input-port" style="width: 100%">
             <!-- <div style="width:20px; margin-left:180px; margin-top:-34px" selected>
                 <input type="text" id="node-input-mapeamento" placeholder="mapeamento">
             </div> -->
         </div>
     </div>
     <div class="form-row">
-        <label for="node-input-mapeamento"><i class="fa fa-map"></i> Mapping</label>
+        <label for="node-input-mapeamento"><i class="fa fa-map"></i> PCI Connection Map</label>
         <input type="text" id="node-input-mapeamento">
     </div>
-    <div class="form-row columm ">
-        <label style="width: auto; margin-top: 8px;" for="node-input-compare_select"><i class="icon-tag"></i>Comparison Type:</label>
-        <select id="node-input-compare_select"  >
-            <!-- <option value="equalTo">Equal to</option> -->
-            <option value="interval">Interval</option>
-            <option value="maxValue">Maximum value (<)</option>
-            <option value="minValue">Minimum value (>)</option>  
-        </select>
-      </div>
-      <div class="form-row columm" style="display: flex;">
-        <div class=box>
-            <div class="node-input-min-value" style="display: none; width: min-content; float: left; margin-right: 40px;">
-                <div class="columm">
-                    <label for="node-input-minValue" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
-                    <input type="number" id="node-input-minValue" style=" width:70px !important ">
+
+    <div class="form-row "  style=" position: relative; display:flex;">
+        <div class="form-row columm"  style="width: max-content;">
+            <label style=" margin-top: 8px;" for="node-input-compare_select"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select"   style="width: 160px;">
+                <!-- <option value="equalTo">Equal to</option> -->
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+        </div>
+        <div class="form-row columm-70" style="display: flex; padding-left: 10px;">
+            <div class=box>
+                <div class="node-input-min-value" style="display: none;  float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue" style="margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue" style=" width:100px !important ">
+                    </div>
                 </div>
-            </div>
-            <div class="node-input-max-value" style="display: none;">
-                <div class="columm">
-                    <label for="node-input-maxValue" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
-                    <input type="number" id="node-input-maxValue" style=" width:70px !important ">
+                <div class="node-input-max-value" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue" style="margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue" style=" width:100px !important ">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="hr-div-get-voltage">
+
+
+    <div class="getCurrent1" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 1</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode1"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode1" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale1" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale1" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number1"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port1" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select1"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select1"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value1" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue1" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue1" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value1" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue1" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue1" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode1"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode1" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale1" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale1" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number1"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port1" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select1"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select1"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value1" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue1" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue1" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value1" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue1" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue1" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent2" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 2</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode2"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode2" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale2" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale2" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number2"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port2" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select2"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select2"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value2" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue2" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue2" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value2" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue2" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue2" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode2"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode2" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale2" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale2" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number2"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port2" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select2"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select2"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value2" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue2" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue2" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value2" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue2" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue2" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent3" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 3</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode3"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode3" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale3" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale3" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number3"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port3" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select3"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select3"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value3" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue3" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue3" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value3" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue3" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue3" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode3"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode3" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale3" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale3" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number3"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port3" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select3"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select3"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value3" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue3" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue3" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value3" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue3" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue3" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent4" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 4</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode4"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode4" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale4" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale4" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number4"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port4" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select4"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select4"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value4" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue4" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue4" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value4" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue4" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue4" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode4"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode4" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale4" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale4" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number4"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port4" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select4"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select4"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value4" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue4" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue4" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value4" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue4" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue4" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent5" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 5</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode5"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode5" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale5" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale5" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number5"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port5" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select5"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select5"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value5" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue5" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue5" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value5" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue5" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue5" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode5"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode5" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale5" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale5" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number5"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port5" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select5"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select5"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value5" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue5" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue5" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value5" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue5" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue5" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent6" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 6</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode6"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode6" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale6" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale6" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number6"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port6" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select6"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select6"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value6" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue6" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue6" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value6" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue6" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue6" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode6"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode6" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale6" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale6" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number6"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port6" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select6"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select6"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value6" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue6" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue6" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value6" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue6" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue6" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent7" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 7</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode7"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode7" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale7" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale7" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number7"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port7" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select7"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select7"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value7" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue7" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue7" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value7" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue7" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue7" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode7"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode7" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale7" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale7" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number7"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port7" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select7"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select7"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value7" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue7" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue7" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value7" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue7" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue7" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent8" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 8</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode8"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode8" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale8" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale8" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number8"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port8" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select8"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select8"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value8" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue8" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue8" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value8" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue8" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue8" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode8"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode8" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale8" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale8" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number8"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port8" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select8"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select8"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value8" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue8" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue8" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value8" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue8" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue8" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent9" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 9</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode9"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode9" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale9" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale9" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number9"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port9" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select9"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select9"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value9" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue9" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue9" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value9" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue9" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue9" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode9"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode9" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale9" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale9" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number9"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port9" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select9"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select9"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value9" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue9" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue9" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value9" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue9" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue9" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent10" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 10</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode10"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode10" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale10" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale10" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number10"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port10" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select10"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select10"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value10" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue10" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue10" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value10" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue10" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue10" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode10"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode10" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale10" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale10" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number10"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port10" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select10"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select10"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value10" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue10" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue10" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value10" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue10" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue10" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent11" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 11</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode11"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode11" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale11" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale11" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number11"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port11" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select11"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select11"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value11" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue11" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue11" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value11" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue11" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue11" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode11"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode11" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale11" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale11" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number11"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port11" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select11"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select11"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value11" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue11" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue11" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value11" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue11" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue11" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent12" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 12</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode12"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode12" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale12" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale12" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number12"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port12" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select12"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select12"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value12" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue12" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue12" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value12" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue12" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue12" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode12"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode12" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale12" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale12" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number12"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port12" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select12"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select12"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value12" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue12" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue12" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value12" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue12" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue12" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent13" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 13</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode13"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode13" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale13" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale13" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number13"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port13" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select13"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select13"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value13" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue13" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue13" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value13" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue13" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue13" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode13"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode13" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale13" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale13" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number13"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port13" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select13"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select13"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value13" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue13" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue13" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value13" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue13" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue13" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent14" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 14</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode14"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode14" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale14" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale14" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number14"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port14" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select14"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select14"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value14" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue14" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue14" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value14" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue14" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue14" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode14"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode14" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale14" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale14" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number14"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port14" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select14"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select14"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value14" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue14" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue14" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value14" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue14" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue14" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent15" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 15</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode15"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode15" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale15" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale15" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number15"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port15" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select15"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select15"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value15" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue15" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue15" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value15" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue15" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue15" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode15"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode15" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale15" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale15" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number15"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port15" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select15"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select15"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value15" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue15" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue15" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value15" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue15" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue15" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent16" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 16</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode16"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode16" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale16" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale16" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number16"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port16" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select16"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select16"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value16" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue16" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue16" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value16" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue16" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue16" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode16"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode16" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale16" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale16" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number16"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port16" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select16"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select16"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value16" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue16" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue16" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value16" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue16" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue16" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent17" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 17</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode17"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode17" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale17" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale17" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number17"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port17" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select17"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select17"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value17" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue17" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue17" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value17" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue17" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue17" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode17"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode17" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale17" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale17" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number17"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port17" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select17"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select17"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value17" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue17" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue17" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value17" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue17" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue17" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent18" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 18</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode18"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode18" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale18" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale18" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number18"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port18" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select18"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select18"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value18" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue18" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue18" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value18" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue18" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue18" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode18"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode18" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale18" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale18" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number18"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port18" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select18"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select18"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value18" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue18" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue18" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value18" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue18" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue18" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent19" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 19</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode19"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode19" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale19" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale19" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number19"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port19" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select19"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select19"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value19" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue19" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue19" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value19" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue19" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue19" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode19"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode19" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale19" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale19" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number19"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port19" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select19"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select19"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value19" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue19" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue19" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value19" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue19" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue19" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent20" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 20</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode20"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode20" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale20" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale20" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number20"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port20" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select20"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select20"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value20" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue20" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue20" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value20" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue20" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue20" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode20"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode20" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale20" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale20" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number20"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port20" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select20"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select20"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value20" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue20" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue20" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value20" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue20" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue20" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent21" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 21</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode21"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode21" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale21" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale21" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number21"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port21" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select21"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select21"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value21" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue21" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue21" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value21" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue21" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue21" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode21"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode21" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale21" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale21" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number21"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port21" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select21"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select21"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value21" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue21" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue21" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value21" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue21" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue21" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent22" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 22</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode22"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode22" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale22" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale22" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number22"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port22" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select22"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select22"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value22" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue22" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue22" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value22" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue22" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue22" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode22"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode22" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale22" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale22" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number22"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port22" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select22"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select22"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value22" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue22" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue22" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value22" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue22" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue22" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent23" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 23</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode23"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode23" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale23" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale23" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number23"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port23" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select23"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select23"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value23" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue23" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue23" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value23" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue23" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue23" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode23"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode23" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale23" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale23" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number23"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port23" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select23"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select23"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value23" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue23" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue23" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value23" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue23" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue23" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="getCurrent24" style="display: none;">
+        <div class="hr-div-get-voltage">
+            <hr>
+            <span class="optional">Measure 24</span>
+            <hr>
+        </div>
+        <div style="display: flex;">
+            <div class="form-row columm-30" style="float: left;">
+                <label for="node-input-AC_mode24"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode24" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm-50" style="float: left;">
+                <label for="node-input-scale24" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale24" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm-70">
+            <label for="node-input-channel_number24"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port24" style="width: 100%">
+            </div>
+        </div>
+
+        <div class="form-row "  style=" position: relative; display:flex;">
+            <div class="form-row columm ">
+                <label style="width: auto; margin-top: 8px;" for="node-input-compare_select24"><i class="icon-tag"></i>Comparison Type:</label>
+                <select id="node-input-compare_select24"  style="width: 160px;">
+                    <option value="interval">Interval</option>
+                    <option value="maxValue">Maximum value (<)</option>
+                    <option value="minValue">Minimum value (>)</option>  
+                </select>
+            </div>
+            <div class="form-row columm-70" style="display: flex;  padding-left: 10px;">
+                <div class=box>
+                    <div class="node-input-min-value24" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                        <div class="columm">
+                            <label for="node-input-minValue24" style=" margin-top: 8px; width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                            <input type="number" id="node-input-minValue24" style=" width:100px !important ">
+                        </div>
+                    </div>
+                    <div class="node-input-max-value24" style="display: none;">
+                        <div class="columm">
+                            <label for="node-input-maxValue24" style=" margin-top: 8px; width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                            <input type="number" id="node-input-maxValue24" style=" width:100px !important ">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div style="display: flex;">
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-AC_mode24"><i class="fa fa-sliders"></i> AC mode</label>
+                <select id="node-input-AC_mode24" style="width: 50%;">
+                    <option value="true" selected>True</option> 
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <div class="form-row columm" style=" width: 50%; float: left;">
+                <label for="node-input-scale24" style=""><i class="fa fa-expand"></i> Scale</label>
+                <input type="number" step="any" id="node-input-scale24" placeholder="scale" style="width:50%;">
+            </div>
+        </div>
+        <div class="form-row columm">
+            <label for="node-input-channel_number24"><i class="fa fa-list-ul"></i> Channel number</label>
+            <div>
+                <input type="text" id="node-config-input-port24" style="width: 40%">
+            </div>
+        </div>
+        <div class="form-row columm ">
+            <label style="width: auto; margin-top: 8px;" for="node-input-compare_select24"><i class="icon-tag"></i>Comparison Type:</label>
+            <select id="node-input-compare_select24"  >
+                <option value="interval">Interval</option>
+                <option value="maxValue">Maximum value (<)</option>
+                <option value="minValue">Minimum value (>)</option>  
+            </select>
+          </div>
+          <div class="form-row columm" style="display: flex;">
+            <div class=box>
+                <div class="node-input-min-value24" style="display: none; width: min-content; float: left; margin-right: 40px;">
+                    <div class="columm">
+                        <label for="node-input-minValue24" style="width: max-content !important;"><i class="icon-tag"></i>Minimum Value: </label>
+                        <input type="number" id="node-input-minValue24" style=" width:100px !important ">
+                    </div>
+                </div>
+                <div class="node-input-max-value24" style="display: none;">
+                    <div class="columm">
+                        <label for="node-input-maxValue24" style="width: max-content !important"><i class="icon-tag"></i>Maximum Value: </label>
+                        <input type="number" id="node-input-maxValue24" style=" width:100px !important ">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+
+
+    <!-- <div class="hr-div-get-voltage">
         <hr>
         <span class="optional">Optional</span>
         <hr>
@@ -177,7 +2934,7 @@
     <div class="form-row columm">
         <label style="width: 50% !important;" for="node-input-name" ><i class="fa fa-tag"></i> Component Nickname</label>
         <input type="text" id="node-input-name" placeholder="Name">
-    </div>
+    </div> -->
 </script>
 
 <script type="text/html" data-help-name="get-current">
