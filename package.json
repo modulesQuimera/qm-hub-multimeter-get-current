@@ -1,6 +1,6 @@
 {
   "name": "qm-multimeter-get-current",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "multimeter get-current module - Node-Red",
   "main": "get-current.js",
   "scripts": {
