@@ -4,7 +4,7 @@
         color: '#32CD32',
         defaults: {
             name:{ value: "" },
-            mapeamento:{ value:"", type: "multimeter-slot1-mapping" },
+            mapeamento:{ value:"", type: "multimeter-mapping" },
             AC_mode:{ value:"false" },
             channel_number:{ value:"" },
             gain: { value:"1" },
@@ -58,14 +58,11 @@
             }
             $("#addGetCurrent").click(function(){
                 self.controle = self.controle+1 <= 24 ? self.controle + 1 : 24;
-
                 $(".getCurrent"+self.controle).show();
-                console.log(self.controle);
             });
             $("#remGetCurrent").click(function(){
                 $(".getCurrent"+self.controle).hide();
                 self.controle = self.controle-1 >= 0 ? self.controle - 1 : 0;
-                console.log(self.controle);
             });
 
             $("#node-input-compare_select").on("change", function(e) {
@@ -221,7 +218,6 @@
 
             var ports = []
             var config_mapeamento = RED.nodes.node(this.mapeamento)
-            // console.log(config_mapeamento)
             if(config_mapeamento){
                 ports = [
                     {value:config_mapeamento.valuePort1, label: "IAPW - " + config_mapeamento.labelPort28, hasValue:false},
